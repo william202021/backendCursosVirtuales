@@ -15,5 +15,7 @@ app.use('/api', require('./routes/index'))
 console.log('Server on port', 3000);*/
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
+app.listen(PORT , function (){
+    console.log("Servidor escuchando en el puerto" , PORT)
+});
 
