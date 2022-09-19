@@ -116,10 +116,10 @@ router.post('/guardarforo', async(req, res) => {
 router.post('/guardarinscripcion', verifyToken, async(req, res) => {
     //const {userId, curso}=req.body;
     const user=await User.findById(req.userId)
-    const infoCurso=await Inscripcion.findOne(req.curso)
-  
+    const infoCurso=await Inscripcion.find(req.curso)
+   console.log(infoCurso)
     if(!user) return res.status(400).send("No existe el usuario")
-    if(user && infoCurso) return res.status(400).send("No se puede inscribir al mismo curso")
+    //if(user && infoCurso) return res.status(400).send("No se puede inscribir al mismo curso")
 
   
     const newInscripcion=new Inscripcion({
