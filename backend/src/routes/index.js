@@ -3,6 +3,8 @@ const router=express.Router();
 const sendEmail=require('../email/envioEmail');
 const Curso=require('../models/cursos');
 const Foro=require('../models/foro');
+const Inscripcion=require('../models/inscripcion')
+
 //codigo agregado
 const bcrypt = require("bcryptjs");
 
@@ -59,7 +61,7 @@ const palabraSecretaValida = await bcrypt.compare(palabraSecretaTextoPlano, pala
     if(!palabraSecretaValida) return res.status(401).send("Contraseña equivocada");
 
     const token=jwt.sign({_id: user._id}, 'secretKey');
-    var nombre = { name: user.name };
+    var nombre = { name: user.name, email:user.email };
     return res.status(200).json({token, nombre});
 })
 
@@ -75,6 +77,7 @@ router.post('/curso-detalle', async(req, res) => {
 
     if(!cursos) return res.status(401).send("El curso no existe");
 
+    
 })
 
 
@@ -106,6 +109,23 @@ router.post('/guardarforo', async(req, res) => {
     console.log(newPreguntaForo)
     res.send('Registro de pregunta en el foro');
  
+
+})
+
+
+router.post('/guardarinscripcion', verifyToken, async(req, res) => {
+    //const {userId, curso}=req.body;
+    const user=await User.findById(req.userId)
+
+    if(!user) return res.status(400).send("No existe el usuario")
+  
+    const newInscripcion=new Inscripcion({
+        userId: user._id,
+       curso:req.body.curso
+    
+
+    });
+    await newInscripcion.save();
 
 })
 

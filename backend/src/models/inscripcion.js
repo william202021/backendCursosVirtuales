@@ -4,15 +4,10 @@ const {Schema, model} =require('mongoose');
 const inscripcionShema=new Schema({
 
     userId:String,
-    curso:{ 
-        type: String,
-        required: true,
-        unique: true
-
-    }
+    curso:String
 },{
     timestamps: true
 });
 
 
-module.exports=model("inscripcionUser", inscripcionShema)
+module.exports=model("inscripcion", inscripcionShema)
