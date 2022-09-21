@@ -93,6 +93,43 @@ router.get('/foro', async(req, res) => {
 })
 
 
+/*router.get('/cantidad-estudiantes', async(req, res) => {
+
+    const consulta= await Curso.aggregate([
+        { "$addFields": { "_id": { "$toString": "$_id" }}},
+           { $lookup:
+              {
+                from: 'inscripcions',
+                localField: '_id',
+                foreignField: 'curso',
+                as: 'orderdetails'
+              }
+            }, { $addFields: {cantidadUsuarios: {$size: "$orderdetails"}}
+       }
+           ])
+           console.log(consulta)
+    res.send(consulta)
+
+})*/
+
+router.post('/cantidad-estudiantes', async(req, res) => {
+
+
+    var nombre=req.body
+    var consulta= await Inscripcion.find({nombre})
+
+    //res.json({documents: consulta});
+
+           console.log(consulta)
+    res.send(consulta)
+
+    if(!consulta) return res.status(401).send("No hay usuarios registrados");
+
+})
+
+
+
+
 
 router.post('/guardarforo', async(req, res) => {
     const {autor, titulo, respuesta, curso, identificador, fecha}=req.body;
@@ -124,7 +161,8 @@ router.post('/guardarinscripcion', verifyToken, async(req, res) => {
   
     const newInscripcion=new Inscripcion({
         userId: user._id,
-       curso:req.body.curso
+       curso:req.body.curso,
+       nombreCurso:req.body.nombreCurso
     
 
     });
@@ -132,6 +170,9 @@ router.post('/guardarinscripcion', verifyToken, async(req, res) => {
     await newInscripcion.save();
 
 })
+
+
+
 
 
 
