@@ -71,7 +71,7 @@ const palabraSecretaValida = await bcrypt.compare(palabraSecretaTextoPlano, pala
 router.post('/curso-detalle', async(req, res) => {
  
     const{nombre}=req.body; 
-    const cursos= await Curso.find({nombre})
+    const cursos= await Curso.find({"nombre":nombre})
     res.send(cursos)
     console.log(cursos)
 
@@ -115,8 +115,8 @@ router.get('/foro', async(req, res) => {
 router.post('/cantidad-estudiantes', async(req, res) => {
 
 
-    var nombre=req.body
-    var consulta= await Inscripcion.find({nombre})
+    var nombre=req.body.nombreCurso
+    var consulta= await Inscripcion.find({"nombreCurso":nombre})
 
     //res.json({documents: consulta});
 
